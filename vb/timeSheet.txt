@@ -1,0 +1,52 @@
+Sub ValidateTimesheet()
+    Dim ws As Worksheet
+    Dim lastRow As Long
+    Dim rng As Range
+    Dim cell As Range
+    Dim errorCount As Integer
+    Dim valid As Boolean
+    
+    Set ws = ActiveSheet
+    lastRow = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
+    Set rng = ws.Range("A2:D" & lastRow)
+    
+    errorCount = 0
+    
+    For Each cell In rng
+        cell.Interior.ColorIndex = xlNone
+    Next cell
+    
+    For Each cell In rng.Columns(1).Cells
+        If Not cell.Value Like "######" Then
+            cell.Interior.Color = RGB(255, 0, 0)
+            errorCount = errorCount + 1
+        End If
+    Next cell
+    
+    For Each cell In rng.Columns(2).Cells
+        If Not IsDate(cell.Value) Or cell.Value > Date Then
+            cell.Interior.Color = RGB(255, 0, 0)
+            errorCount = errorCount + 1
+        End If
+    Next cell
+    
+    For Each cell In rng.Columns(3).Cells
+        If Not IsNumeric(cell.Value) Or cell.Value <= 0 Or cell.Value > 12 Then
+            cell.Interior.Color = RGB(255, 0, 0)
+            errorCount = errorCount + 1
+        End If
+    Next cell
+    
+    For Each cell In rng.Columns(4).Cells
+        If Not cell.Value Like "????" Then
+            cell.Interior.Color = RGB(255, 0, 0)
+            errorCount = errorCount + 1
+        End If
+    Next cell
+    
+    If errorCount = 0 Then
+        MsgBox "Timesheet validated successfully.", vbInformation
+    Else
+        MsgBox "Validation complete. " & errorCount & " errors found.", vbExclamation
+    End If
+End Sub

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Book List</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>My Book List</h1>
+    </header>
+    <main>
+        <button onclick="addBook()">Add Book</button>
+        <section id="book-list"></section>
+    </main>
+    <script>
+        function addBook() {
+            let title = prompt("Enter book title:");
+            let author = prompt("Enter book author:");
+            let description = prompt("Enter book description:");
+            if (title && author && description) {
+                let bookList = document.getElementById("book-list");
+                let bookCard = document.createElement("article");
+                bookCard.className = "book-card";
+                bookCard.innerHTML = `
+                    <h2>${title}</h2>
+                    <h3>by ${author}</h3>
+                    <p>${description}</p>
+                    <ul>
+                        <li><strong>Title:</strong> ${title}</li>
+                        <li><strong>Author:</strong> ${author}</li>
+                        <li><strong>Description:</strong> ${description}</li>
+                    </ul>
+                `;
+                bookList.appendChild(bookCard);
+            }
+        }
+    </script>
+</body>
+</html>
